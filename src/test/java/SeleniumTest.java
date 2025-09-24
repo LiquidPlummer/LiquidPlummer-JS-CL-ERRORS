@@ -8,12 +8,14 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
 public class SeleniumTest {
 
-    private WebDriver webDriver;
+    private WebDriver webDriver = null;
     /**
      * set up selenium web driver.
      * NOTE: the selenium web driver might not be properly configured for your environment.
@@ -24,16 +26,16 @@ public class SeleniumTest {
     @Before
     public void setUp() {
         
-        System.setProperty("webdriver.edge.driver", "driver/msedgedriver");//linux_64
+//        System.setProperty("webdriver.edge.driver", "driver/msedgedriver");//linux_64
 
         // Get file
         File file = new File("src/main/index.html");
         String path = "file://" + file.getAbsolutePath();
 
         
-        EdgeOptions options = new EdgeOptions();
+        ChromeOptions options = new ChromeOptions();
         options.addArguments("headless");
-        webDriver = new EdgeDriver(options);
+        webDriver = new ChromeDriver(options);
 
         // Open the HTML file
         webDriver.get(path);
@@ -78,6 +80,8 @@ public class SeleniumTest {
     @After
     public void tearDown() {
         // Close the browser
-        webDriver.quit();
+        if(this.webDriver != null) {
+            webDriver.quit();
+        }
     }
 }
